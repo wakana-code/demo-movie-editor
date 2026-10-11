@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Demo Maker</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="app-header">
+    <h1>Demo Maker</h1>
+    <span class="phase">第1段階：オープニング＆エンディング</span>
+  </header>
+
+  <main class="layout">
+    <section class="stage">
+      <div class="canvas-wrap">
+        <canvas id="preview"></canvas>
+      </div>
+
+      <div class="transport">
+        <button id="playBtn" class="btn primary" type="button">▶ 再生</button>
+        <input id="seek" type="range" min="0" max="1" step="0.0333" value="0">
+        <span id="timeLabel" class="time">0:00.0 / 0:00.0</span>
+      </div>
+
+      <div id="sections" class="sections"></div>
+
+      <div class="export-box">
+        <div class="row">
+          <button id="exportBtn" class="btn accent" type="button">MP4 を書き出す</button>
+          <button id="cancelBtn" class="btn" type="button" hidden>中止</button>
+          <div id="progress" class="progress" hidden>
+            <div id="progressBar" class="progress-bar"></div>
+          </div>
+        </div>
+        <p id="exportHint" class="hint">H.264 / 30fps の MP4（X・LinkedIn にそのまま投稿できます）</p>
+        <a id="downloadLink" class="download" hidden>ダウンロード</a>
+      </div>
+    </section>
+
+    <aside class="panel">
+      <fieldset id="panelFieldset">
+        <div class="group">
+          <h2>出力</h2>
+          <label class="field">
+            <span>サイズ</span>
+            <select data-key="size">
+              <option value="16:9">16:9 横長（1920×1080）</option>
+              <option value="1:1">1:1 正方形（1080×1080）</option>
+            </select>
+          </label>
+          <div class="row">
+            <label class="field grow">
+              <span>テーマ</span>
+              <select data-key="theme">
+                <option value="dark">ダーク（黒背景）</option>
+                <option value="light">ライト（白背景）</option>
+              </select>
+            </label>
+            <label class="field">
+              <span>アクセント色</span>
+              <input type="color" data-key="accent">
+            </label>
+          </div>
+        </div>
+
+        <div class="group">
+          <h2>オープニング</h2>
+          <label class="field">
+            <span>最初の言葉（スペース区切りで1語ずつ表示）</span>
+            <input type="text" data-key="introText" placeholder="you can now">
+          </label>
+
+          <div class="field">
+            <span class="field-label">モンタージュ画像</span>
+            <div id="dropzone" class="dropzone">
+              <button id="pickBtn" class="btn" type="button">画像を選ぶ…</button>
+              <p class="hint">ここにドラッグ＆ドロップ、または <kbd>⌘</kbd><kbd>V</kbd> で貼り付け</p>
+            </div>
+            <input id="fileInput" type="file" accept="image/*" multiple hidden>
+            <div id="thumbs" class="thumbs"></div>
+            <p id="imageInfo" class="hint"></p>
+            <div class="row">
+              <button id="shuffleBtn" class="btn small" type="button">🔀 並びと加工をシャッフル</button>
+              <button id="clearBtn" class="btn small" type="button" hidden>すべて削除</button>
+            </div>
+          </div>
+
+          <label class="field">
+            <span>モンタージュの長さ：<b id="montageValue">3.5秒</b></span>
+            <input type="range" data-key="montageSeconds" min="2" max="6" step="0.5">
+          </label>
+
+          <label class="field">
+            <span>用途テキスト</span>
+            <textarea data-key="useCase" rows="3" placeholder="edit documents with AI in seconds"></textarea>
+            <p class="hint">長い文は自動でフレーズごとに表示してから全文を出します。区切りを自分で決めたいときは「/」を入れてください（例：AIで/ドキュメントを/一瞬で編集）。</p>
+          </label>
+        </div>
+
+        <div class="group">
+          <h2>エンディング</h2>
+          <label class="field">
+            <span>アプリ名（タイプ風に表示）</span>
+            <input type="text" data-key="appName" placeholder="MyApp">
+          </label>
+          <label class="field">
+            <span>サブテキスト（URLなど・空欄可）</span>
+            <input type="text" data-key="endSub" placeholder="myapp.com">
+          </label>
+        </div>
+      </fieldset>
+    </aside>
+  </main>
+
+  <div id="toast" class="toast" hidden></div>
+
+  <script src="https://cdn.jsdelivr.net/npm/mp4-muxer@5/build/mp4-muxer.min.js"></script>
+  <script src="js/renderer.js"></script>
+  <script src="js/exporter.js.js"></script>
+  <script src="js/app.js.js"></script>
+</body>
+</html>
